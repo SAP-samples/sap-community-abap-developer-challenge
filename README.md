@@ -119,6 +119,7 @@ define view entity ZITRAVEL_123
 {
   key travel_id     as TravelId,
       description   as Description,
+      traveltype    as traveltype,
       @Semantics.amount.currencyCode: 'CurrencyCode'
       total_price   as TotalPrice,
       currency_code as CurrencyCode,
