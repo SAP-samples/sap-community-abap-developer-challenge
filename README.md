@@ -36,7 +36,7 @@ define table ztravel_123 {
  
   key client    : abap.clnt not null;
   key travel_id : /dmo/travel_id not null;
-  @Semantics.amount.currencyCode : 'ztravel_xxx.currency_code'
+  @Semantics.amount.currencyCode : 'ztravel_123.currency_code'
   total_price   : /dmo/total_price;
   currency_code : /dmo/currency_code;
   include ztravel_struc_123;
@@ -57,6 +57,7 @@ define table ztravel_123 {
 define structure ztravel_struc_123 {
  
   description : /dmo/description;
+  traveltype  : /dmo/description;
  
 }
 </pre> 
@@ -82,11 +83,11 @@ CLASS ztravel_fill_data_123 DEFINITION
 ENDCLASS.
 
  
-CLASS ztravel_fill_data_xxx IMPLEMENTATION.
+CLASS ztravel_fill_data_123 IMPLEMENTATION.
  
   METHOD if_oo_adt_classrun~main.
  
-   INSERT ztravel_123 FROM ( SELECT FROM /dmo/travel FIELDS travel_id, total_price, currency_code, description ).
+   INSERT ztravel_123 FROM ( SELECT FROM /dmo/travel FIELDS travel_id, total_price, currency_code, description, (case when total_price > 4500 then 'Business' when total_price > 3000 then 'Premimum Economy else 'Economy' end) as traveltype ).
  
   ENDMETHOD.
 ENDCLASS.
@@ -114,13 +115,14 @@ Note: For standard SAP-delivered tables, you will not be able to do a Data Previ
   dataSources: [ '_Travel' ]
 }
 define view entity ZITRAVEL_123
-  as select from ztravel_xxx as _Travel
+  as select from ztravel_123 as _Travel
 {
   key travel_id     as TravelId,
       description   as Description,
       @Semantics.amount.currencyCode: 'CurrencyCode'
       total_price   as TotalPrice,
-      currency_code as CurrencyCode
+      currency_code as CurrencyCode,
+      
 }
 </pre>
 
