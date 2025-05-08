@@ -32,21 +32,21 @@ So let us start...
 @AbapCatalog.tableCategory : #TRANSPARENT
 @AbapCatalog.deliveryClass : #A
 @AbapCatalog.dataMaintenance : #RESTRICTED
-define table ztravel_xxx {
+define table ztravel_123 {
  
   key client    : abap.clnt not null;
   key travel_id : /dmo/travel_id not null;
   @Semantics.amount.currencyCode : 'ztravel_xxx.currency_code'
   total_price   : /dmo/total_price;
   currency_code : /dmo/currency_code;
-  include ztravel_struc_xxx;
+  include ztravel_struc_123;
  
 }
 
 </pre>
 
 2.  Now create the structure included in the code above which will be an extension of the table.
-    ZTRAVEL_XXX.
+    ZTRAVEL_123.
     
 <pre lang="ABAP">
 @EndUserText.label : 'Structure of Travel Data'
@@ -54,7 +54,7 @@ define table ztravel_xxx {
 @AbapCatalog.enhancement.fieldSuffix : 'ZAC'
 @AbapCatalog.enhancement.quotaMaximumFields : 350
 @AbapCatalog.enhancement.quotaMaximumBytes : 3500
-define structure ztravel_struc_xxx {
+define structure ztravel_struc_123 {
  
   description : /dmo/description;
  
@@ -70,7 +70,7 @@ Activate the structure first and then the table to complete the table creation.
 
 <pre lang="ABAP">
 
-CLASS ztravel_fill_data_xxx DEFINITION
+CLASS ztravel_fill_data_123 DEFINITION
   PUBLIC
   FINAL
   CREATE PUBLIC .
@@ -80,13 +80,13 @@ CLASS ztravel_fill_data_xxx DEFINITION
   PROTECTED SECTION.
   PRIVATE SECTION.
 ENDCLASS.
- 
+
  
 CLASS ztravel_fill_data_xxx IMPLEMENTATION.
  
   METHOD if_oo_adt_classrun~main.
  
-   INSERT ztravel_xxx FROM ( SELECT FROM /dmo/travel FIELDS travel_id, total_price, currency_code, description ).
+   INSERT ztravel_123 FROM ( SELECT FROM /dmo/travel FIELDS travel_id, total_price, currency_code, description ).
  
   ENDMETHOD.
 ENDCLASS.
@@ -113,7 +113,7 @@ Note: For standard SAP-delivered tables, you will not be able to do a Data Previ
   },
   dataSources: [ '_Travel' ]
 }
-define view entity ZITRAVEL_XXX
+define view entity ZITRAVEL_123
   as select from ztravel_xxx as _Travel
 {
   key travel_id     as TravelId,
